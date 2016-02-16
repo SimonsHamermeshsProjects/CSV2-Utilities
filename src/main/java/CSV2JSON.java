@@ -5,55 +5,69 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 
 /**
+ * CSV2JSON - Contains methods for reading from CSVs and converting to JSONArray objects.
  * Created by simonhamermesh on 2/8/16.
  */
 public class CSV2JSON {
 
-    public static String csv2JSON_singleJSONobject (String x) throws Exception  {
+    /**
+     *csv2JSON_singleJSONObject - Takes a file path as an argument. Returns a JSONArray from CSV.
+     */
+    public static String csv2JSON_singleJSONObject (String x) throws Exception  {
 
         BufferedReader br = new BufferedReader(new FileReader(x));
         String line;
-        String longLine = "";
         String firstLine = br.readLine();
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(firstLine);
-        stringBuilder.append("\n");
+        stringBuilder.append(firstLine).append("\n");
 
+        //Reads in CSV and spits out CSV in String format.
         while((line = br.readLine()) != null) {
-            stringBuilder.append(line);
-            stringBuilder.append("\n");
-            longLine = stringBuilder.toString();
+            stringBuilder.append(line).append("\n");
         }
-        JSONArray jsonArray = CDL.toJSONArray(longLine);
-        System.out.println(jsonArray.toString(2));
         br.close();
+
+        System.out.println(stringBuilder.toString());
+        //Converts JSON formatted array of Strings to JSON Array.
+        JSONArray jsonArray = CDL.toJSONArray(stringBuilder.toString());
 
         return jsonArray.toString(2);
     }
 
-
-    public static void csv2JSON_separateJSONobject (String x) throws Exception  {
+    /**
+     *csv2JSON_separateJSONObject - Takes a file path as an argument. Returns a separate JSONArray
+     * for each record in CSV.
+     */
+    public static String csv2JSON_separateJSONObject (String x) throws Exception  {
 
 
         BufferedReader br = new BufferedReader(new FileReader(x));
         String line;
         String longLine;
         String firstLine = br.readLine();
-        StringBuilder stringBuilder;
+        StringBuilder stringBuilderEachJSONOBject;
+        StringBuilder stringBuilderAllJSONObjects = new StringBuilder();
 
 
         while((line = br.readLine()) != null) {
-            stringBuilder = new StringBuilder();
-            stringBuilder.append(firstLine);
-            stringBuilder.append("\n");
-            stringBuilder.append(line);
-            longLine = stringBuilder.toString();
-            JSONArray jsonArray = CDL.toJSONArray(longLine);
-            System.out.println(jsonArray.toString(2));
+            stringBuilderEachJSONOBject = new StringBuilder();
+            stringBuilderEachJSONOBject.append(firstLine);
+            stringBuilderEachJSONOBject.append("\n");
+            stringBuilderEachJSONOBject.append(line);
+            JSONArray jsonArray = CDL.toJSONArray(stringBuilderEachJSONOBject.toString());
+            stringBuilderAllJSONObjects.append(jsonArray.toString(2)).append("\n");
         }
-
         br.close();
 
+        return stringBuilderAllJSONObjects.toString();
+    }
+
+    public static String takeJSONsPrintJSONArray (String x) throws Exception  {
+
+        csv2JSON_separateJSONObject(x);
+
+
+        return "";
     }
 
 }

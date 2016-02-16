@@ -6,10 +6,10 @@ import java.io.PrintWriter;
  */
 public class Logger {
 
-    public static void logger(String x, String y) throws Exception {
+    public static void logger(String outputString, String filePath) throws Exception {
 
-        PrintWriter out = new PrintWriter(new FileWriter(y, false), false);
-        out.write(x);
+        PrintWriter out = new PrintWriter(new FileWriter(filePath, false), false);
+        out.write(outputString);
         out.close();
 
     }
